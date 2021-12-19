@@ -112,11 +112,19 @@
 
 <script>
 export default {
+<<<<<<< HEAD
   name: "HelloWorld",
   props: {
     msg: String,
   },
 };
+=======
+  name: 'HelloWorld',
+  props: {
+    msg: String,
+  },
+}
+>>>>>>> c8ee8412984e1d4a31106f711bb4c7e4278b3b54
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

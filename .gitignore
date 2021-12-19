@@ -20,4 +20,16 @@ pnpm-debug.log*
 *.ntvs*
 *.njsproj
 *.sln
+<<<<<<< HEAD
 *.sw?
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+*.sw?
+=======
+*.sw*
+>>>>>>> 96a23660749c42c1929cd90848e8e5cf29517aa4
+=======
+*.sw?
+>>>>>>> new-base
+>>>>>>> c8ee8412984e1d4a31106f711bb4c7e4278b3b54
