@@ -1,8 +1,8 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Login from "../views/auth/login/index.vue";
-import ForgetPassword from "../views/auth/forgetPassword/index.vue";
-import Chat from "../views/chat/index.vue";
+import loginView from "../views/auth/loginView.vue";
+import forgetPassView from "../views/auth/forgetPassView.vue";
+import chatView from "../views/chat/chatView.vue";
 
 Vue.use(VueRouter);
 
@@ -15,18 +15,18 @@ const routes = [
   },
   {
     path: "/login",
-    name: "Login",
-    component: Login,
+    name: "loginView",
+    component: loginView,
   },
   {
     path: "/forgetpassword",
-    name: "ForgetPassword",
-    component: ForgetPassword,
+    name: "forgetPassView",
+    component: forgetPassView,
   },
   {
     path: "/chat",
-    name: "Chat",
-    component: Chat,
+    name: "chatView",
+    component: chatView,
   },
 ];
 

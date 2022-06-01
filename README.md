@@ -1,4 +1,6 @@
-# schat-fe
+# s-chat
+
+FIX ARBITRARY VALUE IN TAILWIND DOESN'T WORK
 
 ## Project setup
 ```

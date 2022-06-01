@@ -10,9 +10,8 @@
 </template>
 <script>
 // Import layouts here
-import DefaultLayout from "./layouts/default.vue";
-import Auth from "./layouts/auth.vue";
-// import {camelCase} from "lodash";
+import DefaultLayout from "./layouts/defaultLayout.vue";
+import Auth from "./layouts/authLayout.vue";
 
 export default {
   name: "App",
@@ -33,16 +32,6 @@ export default {
     toggleDarkMode() {
       this.isDarkMode = this.isDarkMode ? false : true;
     },
-  },
-  created() {
-    // Use busEvent to trigger these listeners
-    this.$bus.$on("toggleDarkMode", () => {
-      this.toggleDarkMode();
-    });
-    // this.$bus.$on('layout', (layout) => {
-    //   // For example: $bus.$emit('layout', 'unauth') will trigger 'unauthLayout'
-    //   this.updateLayout(camelCase(layout + '_layout'))
-    // })
   },
 };
 </script>
