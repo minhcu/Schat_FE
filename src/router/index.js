@@ -1,23 +1,32 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import HomeView from "../views/HomeView.vue";
+import loginView from "../views/auth/loginView.vue";
+import forgetPassView from "../views/auth/forgetPassView.vue";
+import chatView from "../views/chat/chatView.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
-    name: "home",
-    component: HomeView,
+    // If (!=auth) ->  /login
+    // else -> /chat
+    redirect: "/login",
   },
   {
-    path: "/about",
-    name: "about",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
+    path: "/login",
+    name: "loginView",
+    component: loginView,
+  },
+  {
+    path: "/forgetpassword",
+    name: "forgetPassView",
+    component: forgetPassView,
+  },
+  {
+    path: "/chat",
+    name: "chatView",
+    component: chatView,
   },
 ];
 
