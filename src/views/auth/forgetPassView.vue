@@ -74,7 +74,7 @@ export default {
 
 <style>
 .login {
-  background-image: url("/img/Background.png");
+  background-image: url("@/assets/img/login-background.png");
   height: 100vh;
 }
 .bg-input {

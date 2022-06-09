@@ -5,10 +5,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {},
-<<<<<<< HEAD
-=======
   getters: {},
->>>>>>> BASE/new-base
   mutations: {},
   actions: {},
   modules: {},
