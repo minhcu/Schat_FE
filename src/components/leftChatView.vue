@@ -1,19 +1,26 @@
 <template>
-  <div class="py-3 pl-3">
-    <div
-      class="bg-white h-full w-full rounded-xl py-5 px-5 drop-shadow-xl border-slate-50"
-    >
-      <div class="py-2 px-1 text-center">
-        <h1 class="text-4xl font-bold text-cyan-700">S-Chat</h1>
-        <p class="text-base">Nơi Deadline bắt đầu</p>
+  <div class="max-h-screen h-full w-1/5">
+    <div class="bg-white h-full w-full py-6 px-5 flex flex-col overflow-hidden">
+      <div class="py-2 px-1">
+        <h1 class="text-4xl font-bold text-[#6258DC]">S-Chat</h1>
+        <p class="text-sm text-[#70737D]">Nơi Deadline bắt đầu</p>
       </div>
       <div class="py-2 px-1 flex justify-center items-center">
-        <div class="pr-2">
-          <i class="fa-solid fa-user"></i>
+        <div class="mr-2 w-[30px] h-[30px] overflow-hidden rounded-full">
+          <img
+            class="object-cover h-full w-full"
+            src="https://i.ytimg.com/vi/ryex7piXx78/hqdefault.jpg"
+            alt=""
+          />
+        </div>
+        <div class="mr-2">
+          <i class="fa-regular fa-bell text-[#70737D]"></i>
         </div>
         <div class="text-xs lg:text-base flex justify-center items-center">
-          <div class="flex justify-center items-center bg-[#c5cad9] py-1 px-2">
-            <div class="pr-1">
+          <div
+            class="flex justify-center items-center bg-[#c5cad90f] py-1 px-2"
+          >
+            <div class="pr-1 text-[#ABB2C9]">
               <i class="fa-solid fa-magnifying-glass"></i>
             </div>
             <input
@@ -26,24 +33,11 @@
           </div>
         </div>
       </div>
-      <div class="flex flex-col justify-center items-start mt-3">
-        <div class="mt-3 flex items-center">
-          <div class="text-[#3EA0FE]">
-            <i class="fa-solid fa-house-user"></i>
-          </div>
-          <div>Dashboard - Everything</div>
-        </div>
-        <div class="mt-3 flex items-center">
-          <div class="text-[#7209B763]">
-            <i class="fa-solid fa-briefcase"></i>
-          </div>
-          <div>Work Space</div>
-        </div>
-        <div class="mt-3 flex items-center">
-          <div class="text-[#4361EE]">
-            <i class="fa-solid fa-comment-dots"></i>
-          </div>
-          <div>Chats - Come here and talk</div>
+      <div class="flex justify-center flex-auto">
+        <div class="flex flex-col mt-3" id="chatGroupBox">
+          <chat-group type="dashBoard" />
+          <chat-group type="work" />
+          <chat-group type="chats" />
         </div>
       </div>
     </div>
@@ -51,7 +45,31 @@
 </template>
 
 <script>
-export default {};
+import ChatGroup from "./leftChatComponents/chatGroup.vue";
+
+export default {
+  name: "leftChatView",
+  components: {
+    ChatGroup,
+  },
+  mounted() {
+    // Can get height after rendered only
+    this.chatGroupHeight();
+  },
+  methods: {
+    // Dynamic height setup for scrolling
+    chatGroupHeight() {
+      const list = document.querySelectorAll("#chatGroup");
+      const groupBoxHeight =
+        document.querySelector("#chatGroupBox").clientHeight;
+      const firstDivHeight = list[0].clientHeight + 20; //20px margin doesnt count in clientHeight
+      const finalHeight = (groupBoxHeight - firstDivHeight - 60) / 2; //20px margin for 2 div plus 20px more to look better
+      list[1].style.maxHeight = `${finalHeight}px`;
+      list[2].style.maxHeight = `${finalHeight}px`;
+      return;
+    },
+  },
+};
 </script>
 
 <style></style>

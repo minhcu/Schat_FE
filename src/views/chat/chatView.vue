@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="chat w-screen h-screen grid grid-cols-[20%_1fr] relative bg-[#F9F9F9] gap-3"
-  >
+  <div class="chat w-screen h-screen flex bg-[#F9F9F9]">
     <left-column />
     <mid-column />
   </div>
