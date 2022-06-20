@@ -1,40 +1,25 @@
 <template>
   <!-- This is Login view -->
-  <div class="login flex">
+  <div class="h-screen flex bg-[url('@/assets/img/login-background.png')]">
     <div class="w-1/3">
       <img src="/img/left.png" class="h-full" />
     </div>
-    <div
-      class="h-4/5 my-16 bg-white rounded-md shadow-2xl flex items-center justify-center sm:px-6 lg:px-8 xl:w-1/3 md:w-2/5 w-4/5"
-    >
-      <div class="max-w-md w-full space-y-4 h-full">
+
+    <!-- Form -->
+    <div class="flex-auto flex items-center justify-center">
+      <div class="bg-white py-16 px-20 w-full rounded-md shadow-2xl max-w-lg">
         <div>
-          <p class="mt-10 text-center text-2xl font-extrabold text-gray-900">
+          <p class="text-center text-2xl font-extrabold text-gray-900">
             Chào mừng tới <a class="text-blue-700 font-sans">S-CHAT</a>
           </p>
           <p class="mt-2 text-center text-sm text-gray-900 font-extrabold">
             Nơi Deadline Bắt đầu :-(
           </p>
         </div>
-        <button
-          class="items-center justify-center w-full h-12 shadow-md rounded-md flex"
-        >
-          <img src="/img/logogg.png" class="h-full" /> Login with Google
-        </button>
-        <button
-          class="items-center justify-center w-full h-12 shadow-md rounded-md flex"
-        >
-          <img src="/img/logofb.png" class="h-full" /> Login with Facebook
-        </button>
-        <div class="flex h-8">
-          <p class="border-b-2 w-5/12 h-3/5"></p>
-          <p class="mt-2 text-center text-sm text-gray-900 font-extrabold mx-6">
-            OR
-          </p>
-          <p class="border-b-2 w-5/12 h-3/5"></p>
-        </div>
+
+        <!-- Form -->
         <form class="mt-8 space-y-6" @submit.prevent="submitHandler" ref="form">
-          <div>
+          <div class="relative">
             <div class="w-full flex bg-input rounded-md mb-4">
               <i class="fa fa-envelope m-4" aria-hidden="true"></i>
               <input
@@ -58,26 +43,40 @@
                 class="bg-input h-12 relative block w-11/12 py-2 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="**********"
               />
-              <span @click="showPassword = !showPassword" class="show-hide"
-                ><i class="fa fa-eye m-4 cursor-pointer"></i
-              ></span>
+              <span
+                @click="showPassword = !showPassword"
+                class="cursor-pointer opacity-60 hover:opacity-100 select-none"
+                ><i class="fa fa-eye m-4 relative">
+                  <span
+                    class="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-55%]"
+                    v-if="showPassword"
+                    >/</span
+                  ></i
+                ></span
+              >
             </div>
-            <div v-if="password.length > 1 && password.length < 8">
-              <h5 class="text-center text-xs text-red-500">
-                Password length should be greater than 8
-              </h5>
+            <div
+              v-if="wrongPassword"
+              class="absolute bottom-[-25px] w-full text-center"
+            >
+              <span class="text-center text-xs text-red-500">
+                Email hoặc mật khẩu không đúng
+              </span>
             </div>
           </div>
 
           <div class="flex items-center justify-between">
-            <div class="flex items-center">
+            <div class="flex items-center cursor-pointer">
               <input
                 id="remember-me"
                 name="remember-me"
                 type="checkbox"
-                class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded cursor-pointer"
               />
-              <label for="remember-me" class="ml-2 block text-sm text-gray-900">
+              <label
+                for="remember-me"
+                class="ml-2 block text-sm text-gray-900 cursor-pointer"
+              >
                 Remember me
               </label>
             </div>
@@ -104,6 +103,7 @@
         </form>
       </div>
     </div>
+
     <div class="w-1/3">
       <img src="/img/Group.png" class="h-2/5 mt-96 ml-36" />
     </div>
@@ -115,13 +115,48 @@ export default {
   data() {
     return {
       showPassword: false,
-      email: "",
-      password: "",
+      wrongPassword: false,
+      email: "minhdong@gmail.com",
+      password: "123123",
     };
   },
+  watch: {
+    password: function () {
+      this.wrongPassword = false;
+    },
+  },
   methods: {
-    submitHandler() {
-      console.log(this.email);
+    async submitHandler() {
+      const email = this.email;
+      const password = this.password;
+
+      const response = await fetch("http://localhost:4040/api/users/login", {
+        method: "POST",
+        headers: {
+          Accept: "application/json, text/plain, */*",
+          credentials: "include",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+
+      if (!response.ok) {
+        this.wrongPassword = true;
+      }
+
+      const userData = await response.json();
+
+      localStorage.setItem("user", JSON.stringify(userData));
+
+      this.$store.dispatch("fetchUserData", userData);
+
+      this.$socket.emit(
+        "event:authenticateUser",
+        `Bearer ${this.$store.state.user.accessToken}`
+      );
     },
   },
 };
@@ -130,15 +165,8 @@ export default {
 <style>
 .login {
   background-image: url("@/assets/img/login-background.png");
-  height: 100vh;
 }
 .bg-input {
   background: rgb(236, 236, 236);
-}
-.show-hide i {
-  display: none;
-}
-input:valid ~ .show-hide i {
-  display: block;
 }
 </style>

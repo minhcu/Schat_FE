@@ -33,6 +33,26 @@ export default {
       this.isDarkMode = this.isDarkMode ? false : true;
     },
   },
+  sockets: {
+    connect: function () {
+      this.$socket.emit(
+        "event:authenticateUser",
+        `Bearer ${this.$store.state.user.accessToken}`
+      );
+    },
+    "event:authenticateUser": function (response) {
+      if (!response.success && !(location.pathname == "/login")) {
+        return (location.href = "/login");
+      }
+    },
+    "event:getAllConversations": function (response) {
+      delete response["success"];
+      this.$store.dispatch("fetchUserData", response);
+      if (response.success && !(location.pathname == "/chat")) {
+        return (location.href = "/chat");
+      }
+    },
+  },
 };
 </script>
 
