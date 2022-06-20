@@ -1,6 +1,9 @@
 <template>
   <div class="mt-5 flex flex-col" id="chatGroup">
-    <div class="flex items-center relative">
+    <div
+      class="flex items-center relative cursor-pointer"
+      @click="show = !show"
+    >
       <div
         class="pr-2"
         v-bind:class="groups[type].iconColor"
@@ -8,9 +11,8 @@
       ></div>
       <div class="font-bold">{{ groups[type].title }}</div>
       <div
-        class="absolute right-[-50px] cursor-pointer opacity-60 hover:opacity-100 transition"
+        class="absolute right-[-30px] cursor-pointer opacity-60 hover:opacity-100 transition"
         v-bind:class="{ 'rotate-90': !show }"
-        @click="show = !show"
         v-if="type != 'dashBoard'"
       >
         <i class="fa-regular fa-circle-down"></i>
