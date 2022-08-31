@@ -84,7 +84,7 @@
             <div class="text-sm">
               <a
                 href="#"
-                class="font-medium text-indigo-600 hover:text-indigo-500"
+                class="font-medium text-primary hover:text-primary-50"
                 @click="$router.push('/forgetpassword').catch(() => {})"
               >
                 Forgot your password?
@@ -95,7 +95,7 @@
           <div>
             <button
               type="submit"
-              class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               Login
             </button>
@@ -153,10 +153,8 @@ export default {
 
       this.$store.dispatch("fetchUserData", userData);
 
-      this.$socket.emit(
-        "event:authenticateUser",
-        `Bearer ${this.$store.state.user.accessToken}`
-      );
+      const accessToken = this.$store.getters.accessToken;
+      this.$socket.emit("event:authenticateUser", `Bearer ${accessToken}`);
     },
   },
 };

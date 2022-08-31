@@ -1,10 +1,5 @@
 <template>
-  <component
-    :is="layout"
-    :class="{
-      dark: isDarkMode,
-    }"
-  >
+  <component :is="layout" v-if="isDataLoaded">
     <router-view @layout="updateLayout" />
   </component>
 </template>
@@ -22,36 +17,41 @@ export default {
   data() {
     return {
       layout: "defaultLayout",
-      isDarkMode: false,
+      isDataLoaded: false,
     };
   },
   methods: {
     updateLayout(layout) {
       this.layout = layout;
     },
-    toggleDarkMode() {
-      this.isDarkMode = this.isDarkMode ? false : true;
-    },
   },
   sockets: {
+    // Auth when first access
     connect: function () {
-      this.$socket.emit(
-        "event:authenticateUser",
-        `Bearer ${this.$store.state.user.accessToken}`
-      );
+      const accessToken = this.$store.getters.accessToken;
+      this.$socket.emit("event:authenticateUser", `Bearer ${accessToken}`);
     },
+    // Success = false | Redirect to login
     "event:authenticateUser": function (response) {
       if (!response.success && !(location.pathname == "/login")) {
         return (location.href = "/login");
       }
+      this.isDataLoaded = true;
     },
+    // Sucess = true | Get chat data
     "event:getAllConversations": function (response) {
-      delete response["success"];
-      this.$store.dispatch("fetchUserData", response);
-      if (response.success && !(location.pathname == "/chat")) {
-        return (location.href = "/chat");
+      this.$store
+        .dispatch("getChatData", response.data)
+        .then((this.isDataLoaded = true));
+      const URL = "/chat/" + this.$store.getters.lastestChat.id;
+      if (response.success && !(location.pathname === URL)) {
+        return this.$router.replace(URL);
       }
     },
+  },
+  created() {
+    const userData = JSON.parse(localStorage.getItem("user"));
+    if (userData) return this.$store.dispatch("fetchUserData", userData);
   },
 };
 </script>

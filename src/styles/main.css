@@ -2,13 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,700;1,400;1,500;1,700&display=swap");
 
- /* Global Font */
+/* Global Font */
 * {
-    font-family: 'Be Vietnam Pro', sans-serif;
+  font-family: "Be Vietnam Pro", sans-serif;
+  font-size: 15px;
+  font-weight: 400;
 }
 
 body {
-    overscroll-behavior: none;
+  overscroll-behavior: none;
+}
+
+@layer components {
+    .btn-hover {
+        @apply relative
+    }
+    .btn-hover::after {
+        @apply content-[''] z-[-1] absolute h-[30px] w-[30px] hidden top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-primary-50 rounded-full;
+      }
+    .btn-hover:hover::after {
+        @apply block
+    }
 }

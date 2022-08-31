@@ -1,8 +1,10 @@
-const state = JSON.parse(localStorage.getItem("user"));
+const state = {
+  user: {},
+};
 
 const mutations = {
-  fetchUserData(state, userData) {
-    Object.assign(state, userData);
+  setUserData(state, userData) {
+    state.user = { ...userData };
   },
   deleteUserData(state) {
     localStorage.removeItem("user");
@@ -13,15 +15,25 @@ const mutations = {
 };
 
 const actions = {
-  fetchUserData(context, userData) {
-    context.commit("fetchUserData", userData);
+  async fetchUserData({ commit }, userData) {
+    await commit("setUserData", userData);
   },
   deleteUserData(context) {
     context.commit("deleteUserData");
   },
 };
 
-const getters = {};
+const getters = {
+  userName: (state) => {
+    return state.user.name;
+  },
+  userEmail: (state) => {
+    return state.user.email;
+  },
+  accessToken: (state) => {
+    return state.user.accessToken;
+  },
+};
 
 export default {
   state,

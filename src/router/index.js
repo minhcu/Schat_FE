@@ -14,9 +14,17 @@ const routes = [
     redirect: "/login",
   },
   {
+    path: "/chat/:id/",
+    name: "chatView",
+    component: chatView,
+  },
+  {
     path: "/login",
     name: "loginView",
     component: loginView,
+    meta: {
+      layout: "authLayout",
+    },
   },
   {
     path: "/forgetpassword",
@@ -25,7 +33,6 @@ const routes = [
   },
   {
     path: "/chat",
-    name: "chatView",
     component: chatView,
   },
 ];

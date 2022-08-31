@@ -1,50 +1,40 @@
 <template>
-  <div class="w-4/5">
-    <div class="w-full h-full bg-[#F9F9F9] flex">
-      <div class="flex flex-col flex-1 p-5">
-        <!-- Chat Head -->
-        <div class="flex justify-between items-center">
-          <h2 class="truncate py-3 font-bold text-xl">Channel - User name</h2>
-          <!--  -->
-          <div
-            class="p-3 text-xl opacity-60 hover:opacity-100 cursor-pointer"
-            @click="show = !show"
-          >
-            <i class="fa-solid fa-circle-info"></i>
+  <div class="flex-1">
+    <div
+      class="flex items-center justify-between px-[6px] py-[5px] text-[15px] shadow-[0_0_4px_rgba(0,0,0,0.2)]"
+    >
+      <div class="flex items-center p-[6px]">
+        <div class="relative pr-[10px]">
+          <div class="w-9 h-9">
+            <img
+              class="rounded-full"
+              :src="this.$store.getters.defaultAvatar"
+              alt=""
+            />
           </div>
         </div>
-
-        <!-- Chat Message -->
-        <chat-box />
-
-        <!-- Chat Editor -->
-        <chat-editor />
+        <div>
+          {{ activeChat.name }}
+        </div>
       </div>
-
-      <!-- Chat Info -->
-      <transition name="slide-x">
-        <side-bar v-if="show" />
-      </transition>
+      <div class="p-[6px]">
+        <div
+          class="w-7 h-7 flex justify-center items-center rounded-full cursor-pointer text-primary hover:text-white hover:bg-primary"
+          @click="$emit('toggleChatInfo')"
+        >
+          <i class="fa-solid fa-ellipsis text-xl"></i>
+        </div>
+      </div>
     </div>
+    <slot />
   </div>
 </template>
 
 <script>
-import SideBar from "@/components/midChatComponents/sideBar.vue";
-import ChatBox from "@/components/midChatComponents/chatBox.vue";
-import ChatEditor from "@/components/midChatComponents/chatEditor.vue";
-
 export default {
   name: "midChatView",
-  components: {
-    SideBar,
-    ChatBox,
-    ChatEditor,
-  },
-  data() {
-    return {
-      show: false,
-    };
+  props: {
+    activeChat: Object,
   },
 };
 </script>
